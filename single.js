@@ -17,6 +17,14 @@ vorpal
   })
 
 vorpal
+  .command('position')
+  .description('get module position')
+  .action(function(args, callback) {
+    Actions.position();
+    callback();
+  })
+
+vorpal
   .command('list')
   .description('get module messages')
   .action(function(args, callback) {

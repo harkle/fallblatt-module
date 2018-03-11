@@ -11,14 +11,20 @@ module.exports = class Actions {
 
     this.moduleInstance = new Module(config.module);
 
-    Module.connectionPromise.then(function() {
-      Module.reset();
+    Module.connectionPromise.then(() => {
+      this.moduleInstance.reset();
     });
   }
 
   static reset() {
-    Module.reset();
+    this.moduleInstance.reset();
     vorpal.log(colors.magenta('module set to position 0'));
+  }
+
+  static position() {
+    vorpal.log(colors.magenta('module position is: ' + this.moduleInstance.position));
+
+    return this.moduleInstance.position;
   }
 
   static list() {

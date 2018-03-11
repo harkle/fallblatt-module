@@ -5,15 +5,18 @@ const ModuleController = require('./ModuleController');
 
 module.exports = class Module extends ModuleController {
   constructor(address) {
-    super(address);
+    super(address, 0);
 
     this.loadMessagesMapping();
   }
 
   loadMessagesMapping() {
     this.messages = require('../config/modules-mapping/' + this.address + '.json');
+
+    this.bladeCount = this.messages.length;
   }
 
+  //TODO get current message
   //TODO
   list() {
     this.messages.forEach(function(message, index) {

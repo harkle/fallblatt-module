@@ -5,11 +5,15 @@ const Actions = require('./Actions');
 
 module.exports = class Server {
 
-  constructor(address) {
+  constructor() {
     this.server = express();
 
     this.server.get('/', function (req, res) {
       res.send('hello world')
+    });
+
+    this.server.get('/position', function (req, res) {
+      res.send('Position: ' + Actions.position());
     });
 
     this.server.get('/reset', function (req, res) {
@@ -19,7 +23,6 @@ module.exports = class Server {
 
     this.server.get('/move/*', function (req, res) {
       let request = req.url.split('/');
-
       Actions.move(request[2]);
       res.send('hello world')
     });
