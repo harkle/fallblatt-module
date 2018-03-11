@@ -18,6 +18,7 @@
   "homepage": "https://github.com/harkle/fallblatt-module#readme",
   "dependencies": {
     "colors": "^1.2.0",
+    "express": "^4.16.2",
     "serialport": "^6.1.1",
     "vorpal": "^1.12.0"
   }
