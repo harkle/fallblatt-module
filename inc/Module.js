@@ -38,6 +38,8 @@ module.exports = class Module extends ModuleController {
     });
 
     if (found) this.move(messageIndex);
+
+    return found;
   }
 
   move(position) {

@@ -9,49 +9,63 @@ module.exports = class Server {
     this.server = express();
 
     this.server.get('/', function (req, res) {
-      res.send('hello world')
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify({message: 'fallblatt API'}));
     });
 
     this.server.get('/message', function (req, res) {
-      res.send('Message: ' + Actions.message(false));
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify({message: Actions.message(false)}));
     });
 
     this.server.get('/list', function (req, res) {
-      res.send('Messages: ' + Actions.list(false));
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify(Actions.list(false)));
     });
 
     this.server.get('/position', function (req, res) {
-      res.send('Position: ' + Actions.position());
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify({position: Actions.position()}));
     });
 
-    this.server.get('/reset', function (req, res) {
+    this.server.post('/reset', function (req, res) {
       Actions.reset();
-      res.send('hello world')
+
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify({success: true}));
     });
 
-    this.server.get('/move/*', function (req, res) {
+    this.server.post('/move/*', function (req, res) {
       let request = req.url.split('/');
       Actions.move(request[2]);
-      res.send('hello world')
+
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify({success: true}));
     });
 
-    this.server.get('/step', function (req, res) {
+    this.server.post('/step', function (req, res) {
       Actions.step();
-      res.send('hello world')
+
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify({success: true}));
     });
 
-    this.server.get('/find/*', function (req, res) {
+    this.server.post('/find/*', function (req, res) {
       let request = req.url.split('/');
 
-      Actions.find(request[2]);
-      res.send('hello world')
+      let found = Actions.find(request[2]);
+
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify({success: found}));
     });
 
-    this.server.get('/random/*', function (req, res) {
+    this.server.post('/random/*', function (req, res) {
       let request = req.url.split('/');
 
       Actions.random(request[2]);
-      res.send('hello world')
+
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify({success: true}));
     });
 
     this.server.listen(3000, function (connection) {

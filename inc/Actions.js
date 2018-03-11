@@ -50,22 +50,32 @@ module.exports = class Actions {
   }
 
   static find(string) {
-    this.moduleInstance.find(string);
-    vorpal.log(colors.magenta('module moved to "' + string + '"'));
+    let found = this.moduleInstance.find(string);
+
+    if (found) {
+      vorpal.log(colors.magenta('module moved to "' + string + '"'));
+    } else {
+      vorpal.log(colors.red('no message containing "' + string + '" found'));
+    }
+
+    return found;
   }
 
   static move(position) {
     this.moduleInstance.move(position);
+
     vorpal.log(colors.magenta('module moved to "' + position + '"'));
   }
 
   static step() {
     this.moduleInstance.step();
+
     vorpal.log(colors.magenta('module moved 1 step ahead'));
   }
 
   static random(action) {
     this.moduleInstance.random(action);
+
     vorpal.log(colors.magenta('random mode set to "' + action + '"'));
   }
 }
