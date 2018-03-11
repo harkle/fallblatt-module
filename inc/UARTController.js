@@ -1,3 +1,5 @@
+const vorpal = require('vorpal')();
+const colors = require('colors');
 const fs = require('fs');
 const SerialPort = require('serialport');
 
@@ -12,27 +14,33 @@ module.exports = class UARTController {
     this.commandList = [];
     this.isConnecting = true;
 
-    fs.readFile('./config/serial.txt', 'utf8', (err, contents) => {
-      let data = contents.split("\n");
+    let config = require('../config/config.json');
 
-      ;
-      this.port = new SerialPort(data[0], {
+    this.connectionPromise = new Promise((resolve, reject) => {
+      this.port = new SerialPort(config.serial, {
         baudRate: 19200
+      }, function (err) {
+        if (err) {
+          vorpal.log(colors.red(err.message));
+        } else {
+          vorpal.log(colors.green('serial is connected'));
+        }
+
+        resolve();
       });
 
       this.isConnected = true;
-      console.log('Connected');
+
+      setInterval(() => {
+        if (this.commandList.length > 0 && this.isConnected) {
+          let command = this.commandList.shift();
+
+          UARTController.break().then(() => {
+            UARTController.port.write(command, function (err) { });
+          });
+        }
+      }, 500)
     });
-
-    setInterval(() => {
-      if (this.commandList.length > 0 && this.isConnected) {
-        let command = this.commandList.shift();
-
-        UARTController.break().then(() => {
-          UARTController.port.write(command, function (err) { });
-        });
-      }
-    }, 500)
   }
 
   static break() {
