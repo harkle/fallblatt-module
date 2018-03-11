@@ -12,6 +12,14 @@ module.exports = class Server {
       res.send('hello world')
     });
 
+    this.server.get('/message', function (req, res) {
+      res.send('Message: ' + Actions.message(false));
+    });
+
+    this.server.get('/list', function (req, res) {
+      res.send('Messages: ' + Actions.list(false));
+    });
+
     this.server.get('/position', function (req, res) {
       res.send('Position: ' + Actions.position());
     });

@@ -16,12 +16,12 @@ module.exports = class Module extends ModuleController {
     this.bladeCount = this.messages.length;
   }
 
-  //TODO get current message
-  //TODO
+  message() {
+    return this.messages[this.position];
+  }
+
   list() {
-    this.messages.forEach(function(message, index) {
-      //if (message.trim().length > 0) console.log("\x1b[35m" + index + "\t" + message + "\x1b[0m");
-    });
+    return this.messages;
   }
 
   find(target) {

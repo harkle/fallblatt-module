@@ -27,9 +27,26 @@ module.exports = class Actions {
     return this.moduleInstance.position;
   }
 
-  static list() {
-    this.moduleInstance.list();
-    vorpal.log(colors.magenta('list'));
+  static message(echo = true) {
+    let message = this.moduleInstance.message();
+
+    if (echo) {
+      vorpal.log(colors.magenta('current message is: "' + message +'"'));
+    } else {
+      return message;
+    }
+  }
+
+  static list(echo = true) {
+    let messages = this.moduleInstance.list();
+
+    if (echo) {
+      messages.forEach(function(message, index) {
+        if (message) vorpal.log(colors.magenta(index + "\t\t" + message));
+      });
+    } else {
+      return messages;
+    }
   }
 
   static find(string) {

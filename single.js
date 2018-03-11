@@ -17,6 +17,14 @@ vorpal
   })
 
 vorpal
+  .command('message')
+  .description('get current message')
+  .action(function(args, callback) {
+    Actions.message();
+    callback();
+  })
+
+vorpal
   .command('position')
   .description('get module position')
   .action(function(args, callback) {
@@ -28,7 +36,7 @@ vorpal
   .command('list')
   .description('get module messages')
   .action(function(args, callback) {
-    Action.list();
+    Actions.list();
     callback();
   })
 
