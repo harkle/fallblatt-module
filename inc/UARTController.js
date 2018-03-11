@@ -8,6 +8,10 @@ module.exports = class UARTController {
     UARTController.connect();
   }
 
+  static status() {
+    return this.isConnected;
+  }
+
   static connect() {
     if (this.isConnecting) return;
 

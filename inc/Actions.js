@@ -16,6 +16,17 @@ module.exports = class Actions {
     });
   }
 
+  static status(serverStatus) {
+    let status = {
+      serial: Module.status(),
+      network: serverStatus
+    };
+
+    vorpal.log(colors.magenta('serial is: "' + status.serial + '", network is: "' + status.network + '"'));
+
+    return status;
+  }
+
   static reset() {
     this.moduleInstance.reset();
     vorpal.log(colors.magenta('module set to position 0'));

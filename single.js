@@ -2,11 +2,17 @@ const vorpal = require('vorpal')();
 const Actions = require('./inc/Actions');
 const Server = require('./inc/Server');
 
-let moduleInstance;
-let server;
+let server = new Server();
 
-server = new Server();
 Actions.init();
+
+vorpal
+  .command('status')
+  .description('reset module position')
+  .action(function(args, callback) {
+    Actions.status(server.status());
+    callback();
+  })
 
 vorpal
   .command('reset')

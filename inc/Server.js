@@ -6,11 +6,17 @@ const Actions = require('./Actions');
 module.exports = class Server {
 
   constructor() {
+    this.isConnected = false;
     this.server = express();
 
     this.server.get('/', function (req, res) {
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify({message: 'fallblatt API'}));
+    });
+
+    this.server.get('/status', (req, res) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify({message: Actions.status(this.isConnected)}));
     });
 
     this.server.get('/message', function (req, res) {
@@ -68,10 +74,20 @@ module.exports = class Server {
       res.send(JSON.stringify({success: true}));
     });
 
-    this.server.listen(3000, function (connection) {
-      require('dns').lookup(require('os').hostname(), function (err, add, fam) {
-    	  vorpal.log(colors.green('frontend is ready: http://'+add+':3000 or http://127.0.0.1:3000'));
+    this.server.listen(3000, (connection) => {
+      require('dns').lookup(require('os').hostname(), (err, add, fam) => {
+        if (!err) {
+          this.isConnected = true;
+
+          vorpal.log(colors.green('frontend is ready: http://'+add+':3000 or http://127.0.0.1:3000'));
+        } else {
+          vorpal.log(colors.red(err));
+        }
       });
     });
+  }
+
+  status() {
+    return this.isConnected;
   }
 }
