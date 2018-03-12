@@ -2,46 +2,82 @@ const express = require('express');
 const colors = require('colors');
 const vorpal = require('vorpal')();
 const Actions = require('./Actions');
+const bootstrap = require('bootstrap-styl');
+const stylus = require('stylus');
+const nib = require('nib');
+const server = require('http')
+const io = require('socket.io');
 
 module.exports = class Server {
 
   constructor() {
     this.isConnected = false;
-    this.server = express();
+    this.app = express();
 
-    this.server.get('/', function (req, res) {
-      res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify({message: 'fallblatt API'}));
+    this.server = server.createServer(this.app);
+    this.io = require('socket.io')(this.server);
+
+    this.io.on('connection', (client) => {
+      client.on('join', (data) => {
+        client.emit('status', Actions.status(this.isConnected));
+
+        vorpal.log(colors.yellow('webclient connected'));
+      });
     });
 
-    this.server.get('/status', (req, res) => {
-      res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify({message: Actions.status(this.isConnected)}));
+    this.app.set('views', __dirname + '/../views');
+    this.app.set('view engine', 'pug');
+    this.app.use(stylus.middleware({
+      src: __dirname + '/../public',
+      compile: this.compile
+    }));
+
+    this.app.use(express.static(__dirname + '/../public'));
+
+    this.app.all('/', function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "X-Requested-With");
+      next();
     });
 
-    this.server.get('/message', function (req, res) {
+    this.app.get('/', function (req, res) {
+      res.setHeader('Content-Type', 'text/html');
+      res.render('index', {page: 'index'});
+    });
+
+    this.app.get('/information', function (req, res) {
+      res.setHeader('Content-Type', 'text/html');
+      res.render('information', {page: 'information'});
+    });
+
+    this.app.get('/status', (req, res) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify(Actions.status(this.isConnected)));
+    });
+
+    this.app.get('/message', function (req, res) {
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify({message: Actions.message(false)}));
     });
 
-    this.server.get('/list', function (req, res) {
+    this.app.get('/list', function (req, res) {
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify(Actions.list(false)));
     });
 
-    this.server.get('/position', function (req, res) {
+    this.app.get('/position', function (req, res) {
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify({position: Actions.position()}));
     });
 
-    this.server.post('/reset', function (req, res) {
+    this.app.post('/reset', function (req, res) {
       Actions.reset();
 
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify({success: true}));
     });
 
-    this.server.post('/move/*', function (req, res) {
+    this.app.post('/move/*', function (req, res) {
       let request = req.url.split('/');
       Actions.move(request[2]);
 
@@ -49,14 +85,14 @@ module.exports = class Server {
       res.send(JSON.stringify({success: true}));
     });
 
-    this.server.post('/step', function (req, res) {
+    this.app.post('/step', function (req, res) {
       Actions.step();
 
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify({success: true}));
     });
 
-    this.server.post('/find/*', function (req, res) {
+    this.app.post('/find/*', function (req, res) {
       let request = req.url.split('/');
 
       let found = Actions.find(request[2]);
@@ -65,7 +101,7 @@ module.exports = class Server {
       res.send(JSON.stringify({success: found}));
     });
 
-    this.server.post('/random/*', function (req, res) {
+    this.app.post('/random/*', function (req, res) {
       let request = req.url.split('/');
 
       Actions.random(request[2]);
@@ -89,5 +125,12 @@ module.exports = class Server {
 
   status() {
     return this.isConnected;
+  }
+
+  compile(str, path) {
+    return stylus(str)
+      .set('filename', path)
+      .use(nib())
+      .use(bootstrap());
   }
 }

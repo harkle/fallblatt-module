@@ -2,7 +2,7 @@ const vorpal = require('vorpal')();
 const Actions = require('./inc/Actions');
 const Server = require('./inc/Server');
 
-let server = new Server();
+global.server = new Server();
 
 Actions.init();
 
@@ -74,7 +74,7 @@ vorpal
   .command('random <action>')
   .description('random mode, use with start|stop')
   .action(function(args, callback) {
-    Actions.move(args.action)
+    Actions.random(args.action)
     callback();
   });
 

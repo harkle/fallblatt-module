@@ -23,17 +23,17 @@ module.exports = class UARTController {
     this.connectionPromise = new Promise((resolve, reject) => {
       this.port = new SerialPort(config.serial, {
         baudRate: 19200
-      }, function (err) {
+      }, (err) => {
         if (err) {
+          this.isConnected = false;
           vorpal.log(colors.red(err.message));
         } else {
+          this.isConnected = true;
           vorpal.log(colors.green('serial is connected'));
         }
 
         resolve();
       });
-
-      this.isConnected = true;
 
       setInterval(() => {
         if (this.commandList.length > 0 && this.isConnected) {

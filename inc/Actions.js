@@ -19,10 +19,13 @@ module.exports = class Actions {
   static status(serverStatus) {
     let status = {
       serial: Module.status(),
-      network: serverStatus
+      network: serverStatus,
+      mode: this.moduleInstance.mode,
+      position: this.moduleInstance.position,
+      address: this.moduleInstance.address
     };
 
-    vorpal.log(colors.magenta('serial is: "' + status.serial + '", network is: "' + status.network + '"'));
+    vorpal.log(colors.magenta('serial is: "' + status.serial + '", network is: "' + status.network + '", mode is: "' + status.mode + '"'));
 
     return status;
   }

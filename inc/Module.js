@@ -7,6 +7,7 @@ module.exports = class Module extends ModuleController {
   constructor(address) {
     super(address, 0);
 
+    this.switchMode('static');
     this.loadMessagesMapping();
   }
 
@@ -14,6 +15,12 @@ module.exports = class Module extends ModuleController {
     this.messages = require('../config/modules-mapping/' + this.address + '.json');
 
     this.bladeCount = this.messages.length;
+  }
+
+  switchMode(mode) {
+    this.mode = mode;
+
+    global.server.io.emit('mode', {mode: this.mode});
   }
 
   message() {
@@ -52,9 +59,11 @@ module.exports = class Module extends ModuleController {
       case 'start':
         clearTimeout(this.randomTimeout);
         this.selectRandomPosition();
+        this.switchMode('random');
         break;
       case 'stop':
         clearTimeout(this.randomTimeout);
+        this.switchMode('static');
         break;
     }
   }
@@ -62,7 +71,7 @@ module.exports = class Module extends ModuleController {
   selectRandomPosition() {
     this.randomTimeout = setTimeout(() => {
       let index = this.findRandomMessage();
-      this.move(index);
+      super.move(index);
 
       this.selectRandomPosition();
     }, 3000 + Math.floor(Math.random() * 10000));

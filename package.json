@@ -17,9 +17,14 @@
   },
   "homepage": "https://github.com/harkle/fallblatt-module#readme",
   "dependencies": {
+    "bootstrap-styl": "^5.0.8",
     "colors": "^1.2.0",
     "express": "^4.16.2",
+    "nib": "^1.1.2",
+    "pug": "^2.0.1",
     "serialport": "^6.1.1",
+    "socket.io": "^2.0.4",
+    "stylus": "^0.54.5",
     "vorpal": "^1.12.0"
   }
 }
