@@ -110,12 +110,14 @@ module.exports = class Server {
       res.send(JSON.stringify({success: true}));
     });
 
-    this.server.listen(3000, (connection) => {
+    let port = process.env.PORT || 3000;
+
+    this.server.listen(port, (connection) => {
       require('dns').lookup(require('os').hostname(), (err, add, fam) => {
         if (!err) {
           this.isConnected = true;
 
-          vorpal.log(colors.green('frontend is ready: http://'+add+':3000 or http://127.0.0.1:3000'));
+          vorpal.log(colors.green('frontend is ready: http://' + add + ':' + port + ' or http://127.0.0.1:' + port));
         } else {
           vorpal.log(colors.red(err));
         }
