@@ -43,7 +43,7 @@ module.exports = class UARTController {
             UARTController.port.write(command, function (err) { });
           });
         }
-      }, 500)
+      }, 250)
     });
   }
 

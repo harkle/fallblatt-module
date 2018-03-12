@@ -12,7 +12,19 @@ module.exports = class Actions {
     this.moduleInstance = new Module(config.module);
 
     Module.connectionPromise.then(() => {
-      this.moduleInstance.reset();
+      let stepCount = 0;
+      let stepInterval = setInterval(() => {
+        this.moduleInstance.step();
+        stepCount++
+
+        if (stepCount == this.moduleInstance.messages.length) {
+          clearTimeout(stepInterval);
+
+          setTimeout(() => {
+            this.moduleInstance.reset();
+          }, 1000);
+        }
+      }, 260);
     });
   }
 
