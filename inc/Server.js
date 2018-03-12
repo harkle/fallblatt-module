@@ -34,9 +34,9 @@ module.exports = class Server {
 
     this.app.use(express.static(__dirname + '/../public'));
 
-    this.app.all('/', function(req, res, next) {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    this.app.use(function(req, res, next) {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'X-Requested-With');
       next();
     });
 
