@@ -1,4 +1,5 @@
 {
   "module": "52",
+  "type": "train-types",
   "serial": "/dev/tty.usbserial-AH03FSKC"
 }

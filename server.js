@@ -1,16 +1,18 @@
 const vorpal = require('vorpal')();
-const Actions = require('./inc/Actions');
-const Server = require('./inc/Server');
+const Actions = require('./inc/actions');
+const Server = require('./inc/server');
 
 global.server = new Server();
 
-Actions.init();
+Actions.init().then(() => {
+  vorpal.show();
+});
 
 vorpal
   .command('status')
   .description('reset module position')
   .action(function(args, callback) {
-    Actions.status(server.status());
+    Actions.status(server.status(), true);
     callback();
   })
 
@@ -79,4 +81,3 @@ vorpal
   });
 
 vorpal.delimiter('fallblatt >');
-vorpal.show();

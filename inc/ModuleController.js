@@ -1,5 +1,5 @@
 const fs = require('fs');
-const UARTController = require('./UARTController');
+const UARTController = require('./uartController');
 
 module.exports = class ModuleController extends UARTController {
   constructor(address, bladeCount) {

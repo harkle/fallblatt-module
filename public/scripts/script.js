@@ -17,9 +17,15 @@ $(function () {
       $('#mode').val(data.mode);
       $('#module').val(data.position);
     } else if ($('body').hasClass('information')) {
-      $('#info-serial').text(data.serial).addClass((data.serial) ? 'text-success' : 'text-danger');
-      $('#info-network').text(data.network).addClass((data.network) ? 'text-success' : 'text-danger');;
+      $('#info-status, #info-serial, #info-network').removeClass('text-success, text-danger');
+
+      $('#info-status').text((data.isReady) ? 'ready' : 'not ready').addClass((data.isReady) ? 'text-success' : 'text-danger');
+      $('#info-serial').text((data.serial) ? 'connected' : 'not connected').addClass((data.serial) ? 'text-success' : 'text-danger');
+      $('#info-network').text((data.network) ? 'connected' : 'not connected').addClass((data.network) ? 'text-success' : 'text-danger');
+
+      $('#info-type').text(data.type);
       $('#info-mode').text(data.mode);
+      $('#info-position').text(data.position);
     }
 
     $('.info-address').text(data.address);

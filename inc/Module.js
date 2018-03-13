@@ -4,9 +4,10 @@ const fs = require('fs');
 const ModuleController = require('./ModuleController');
 
 module.exports = class Module extends ModuleController {
-  constructor(address) {
+  constructor(address, type) {
     super(address, 0);
 
+    this.type = type;
     this.switchMode('static');
     this.loadMessagesMapping();
   }

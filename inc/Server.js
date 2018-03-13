@@ -1,7 +1,7 @@
 const express = require('express');
 const colors = require('colors');
 const vorpal = require('vorpal')();
-const Actions = require('./Actions');
+const Actions = require('./actions');
 const bootstrap = require('bootstrap-styl');
 const stylus = require('stylus');
 const nib = require('nib');
@@ -20,8 +20,6 @@ module.exports = class Server {
     this.io.on('connection', (client) => {
       client.on('join', (data) => {
         client.emit('status', Actions.status(this.isConnected));
-
-        vorpal.log(colors.yellow('webclient connected'));
       });
     });
 
