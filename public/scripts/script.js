@@ -1,7 +1,7 @@
 $(function () {
   var socket = io.connect();
   socket.on('connect', function(data) {
-    socket.emit('join', 'Hello World from client');
+    socket.emit('update');
   });
 
   socket.on('position', function(data) {
@@ -48,12 +48,12 @@ $(function () {
     $('body').on('change', '#mode', function () {
       var action = ($(this).val() == 'static') ? 'stop' : 'start';
 
-      $.post('//' + location.host + '/random/' + action, function(data) {
+      $.get('//' + location.host + '/random/' + action, function(data) {
       }, 'json');
     });
 
     $('body').on('change', '#module', function () {
-      $.post('//' + location.host + '/move/' + $(this).val(), function(data) {
+      $.get('//' + location.host + '/move/' + $(this).val(), function(data) {
       }, 'json');
     });
   }

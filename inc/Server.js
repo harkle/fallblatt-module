@@ -18,7 +18,7 @@ module.exports = class Server {
     this.io = require('socket.io')(this.server);
 
     this.io.on('connection', (client) => {
-      client.on('join', (data) => {
+      client.on('update', (data) => {
         client.emit('status', Actions.status(this.isConnected));
       });
     });
@@ -68,14 +68,14 @@ module.exports = class Server {
       res.send(JSON.stringify({position: Actions.position()}));
     });
 
-    this.app.post('/reset', function (req, res) {
+    this.app.get('/reset', function (req, res) {
       Actions.reset();
 
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify({success: true}));
     });
 
-    this.app.post('/move/*', function (req, res) {
+    this.app.get('/move/*', function (req, res) {
       let request = req.url.split('/');
       Actions.move(request[2]);
 
@@ -83,14 +83,14 @@ module.exports = class Server {
       res.send(JSON.stringify({success: true}));
     });
 
-    this.app.post('/step', function (req, res) {
+    this.app.get('/step', function (req, res) {
       Actions.step();
 
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify({success: true}));
     });
 
-    this.app.post('/find/*', function (req, res) {
+    this.app.get('/find/*', function (req, res) {
       let request = req.url.split('/');
 
       let found = Actions.find(request[2]);
@@ -99,7 +99,7 @@ module.exports = class Server {
       res.send(JSON.stringify({success: found}));
     });
 
-    this.app.post('/random/*', function (req, res) {
+    this.app.get('/random/*', function (req, res) {
       let request = req.url.split('/');
 
       Actions.random(request[2]);
