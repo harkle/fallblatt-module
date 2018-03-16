@@ -102,7 +102,7 @@ module.exports = class Server {
     this.app.get('/random/*', function (req, res) {
       let request = req.url.split('/');
 
-      Actions.random(request[2]);
+      Actions.random(request[2], request[3], request[4]);
 
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify({success: true}));

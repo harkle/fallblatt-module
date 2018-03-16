@@ -73,10 +73,10 @@ vorpal
   })
 
 vorpal
-  .command('random <action>')
-  .description('random mode, use with start|stop')
+  .command('random <action> [duration] [variation]')
+  .description('random mode duration variation, use with start|stop, time in seconds')
   .action(function(args, callback) {
-    Actions.random(args.action)
+    Actions.random(args.action, args.duration, args.variation);
     callback();
   });
 

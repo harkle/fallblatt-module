@@ -55,11 +55,14 @@ module.exports = class Module extends ModuleController {
     super.move(position);
   }
 
-  random(action) {
+  random(action, duration = 10000, variation = 0) {
+    this.randomDuration = duration
+    this.randomVariation = variation;
+    console.log(this.randomDuration, this.randomVariation);
     switch (action) {
       case 'start':
         clearTimeout(this.randomTimeout);
-        this.selectRandomPosition();
+        this.selectRandomPosition(duration, variation);
         this.switchMode('random');
         break;
       case 'stop':
@@ -75,7 +78,7 @@ module.exports = class Module extends ModuleController {
       super.move(index);
 
       this.selectRandomPosition();
-    }, 3000 + Math.floor(Math.random() * 10000));
+    }, this.randomDuration + Math.floor(Math.random() * this.randomVariation));
   }
 
   findRandomMessage() {
