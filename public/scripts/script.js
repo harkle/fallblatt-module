@@ -31,30 +31,36 @@ $(function () {
     $('.info-address').text(data.address);
   });
 
-  if ($('body').hasClass('index')) {
-    $.getJSON('//' + location.host + '/list', function(data) {
-      var input = $('<select id="module"></select>');
+  socket.on('list', function(data) {
+    var input = $('<select id="module"></select>');
 
-      $.each(data, function (index, message) {
-        if (index == 0 || message.length > 0) {
-          var select = $('<option value="' + index + '">' + message + '</option>');
-          input.append(select);
-        }
-      });
-
-      $('#modules').append(input);
+    $.each(data, function (index, message) {
+      if (index == 0 || message.length > 0) {
+        var select = $('<option value="' + index + '">' + message + '</option>');
+        input.append(select);
+      }
     });
 
-    $('body').on('change', '#mode', function () {
-      var action = ($(this).val() == 'static') ? 'stop' : 'start';
+    $('#modules').append(input);
+  });
 
-      $.get('//' + location.host + '/random/' + action, function(data) {
-      }, 'json');
+  if ($('body').hasClass('index')) {
+    socket.emit('list');
+
+    $('body').on('change', '#mode, #randomDuration, #randomVariation', function () {
+      var action = ($('#mode').val() == 'static') ? 'stop' : 'start';
+
+      if (action == 'start') {
+        $('#randomVariationLine, #randomDurationLine').show();
+      } else {
+        $('#randomVariationLine, #randomDurationLine').hide();
+      }
+
+      socket.emit('random', {action: action, duration: $('#randomDuration').val(), variation: $('#randomVariation').val()});
     });
 
     $('body').on('change', '#module', function () {
-      $.get('//' + location.host + '/move/' + $(this).val(), function(data) {
-      }, 'json');
+      socket.emit('move', {destination: $(this).val()});
     });
   }
 });

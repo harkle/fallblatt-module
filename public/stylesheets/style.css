@@ -51,3 +51,7 @@ input {
 #modules > div {
   margin-bottom: 15px;
 }
+#randomVariationLine,
+#randomDurationLine {
+  display: none;
+}

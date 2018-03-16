@@ -18,8 +18,50 @@ module.exports = class Server {
     this.io = require('socket.io')(this.server);
 
     this.io.on('connection', (client) => {
-      client.on('update', (data) => {
+      client.on('status', (data) => {
         client.emit('status', Actions.status(this.isConnected));
+      });
+
+      client.on('message', (data) => {
+        client.emit('message', {message: Actions.message(false)});
+      });
+
+      client.on('list', (data) => {
+        client.emit('list', Actions.list(false));
+      });
+
+      client.on('position', (data) => {
+        client.emit('position', Actions.position());
+      });
+
+      client.on('reset', (data) => {
+        Actions.reset();
+
+        client.emit('reset', {success: true, status: Actions.status()});
+      });
+
+      client.on('move', (data) => {
+        Actions.move(data.destination);
+
+        client.emit('move', {success: true, status: Actions.status()});
+      });
+
+      client.on('step', (data) => {
+        Actions.step();
+
+        client.emit('step', {success: true, status: Actions.status()});
+      });
+
+      client.on('find', (data) => {
+        let found = Actions.find(request[2]);
+
+        client.emit('find', {success: found, status: Actions.status()});
+      });
+
+      client.on('random', (data) => {
+        Actions.random(data.action, data.duration, data.variation);
+
+        client.emit('random', {success: true, status: Actions.status()});
       });
     });
 
@@ -63,49 +105,49 @@ module.exports = class Server {
       res.send(JSON.stringify(Actions.list(false)));
     });
 
-    this.app.get('/position', function (req, res) {
+    this.app.post('/position', function (req, res) {
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify({position: Actions.position()}));
     });
 
-    this.app.get('/reset', function (req, res) {
+    this.app.post('/reset', function (req, res) {
       Actions.reset();
 
       res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify({success: true}));
+      res.send(JSON.stringify({success: true, status: Actions.status()}));
     });
 
-    this.app.get('/move/*', function (req, res) {
+    this.app.post('/move/*', function (req, res) {
       let request = req.url.split('/');
       Actions.move(request[2]);
 
       res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify({success: true}));
+      res.send(JSON.stringify({success: true, status: Actions.status()}));
     });
 
-    this.app.get('/step', function (req, res) {
+    this.app.post('/step', function (req, res) {
       Actions.step();
 
       res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify({success: true}));
+      res.send(JSON.stringify({success: true, status: Actions.status()}));
     });
 
-    this.app.get('/find/*', function (req, res) {
+    this.app.post('/find/*', function (req, res) {
       let request = req.url.split('/');
 
       let found = Actions.find(request[2]);
 
       res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify({success: found}));
+      res.send(JSON.stringify({success: found, status: Actions.status()}));
     });
 
-    this.app.get('/random/*', function (req, res) {
+    this.app.post('/random/*', function (req, res) {
       let request = req.url.split('/');
 
       Actions.random(request[2], request[3], request[4]);
 
       res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify({success: true}));
+      res.send(JSON.stringify({success: true, status: Actions.status()}));
     });
 
     let port = process.env.PORT || 3000;

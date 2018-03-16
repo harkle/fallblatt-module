@@ -6,6 +6,28 @@ block content
       select#mode
         option(value="static") Statique
         option(value="random") Aléatoire
+  .row#randomDurationLine
+    .col-md-12
+      h3 Duration
+      select#randomDuration
+        option(value="5") 5 seconds
+        option(value="10", selected) 10 seconds
+        option(value="30") 30 seconds
+        option(value="60") 1 minute
+        option(value="300") 5 minutes
+        option(value="600") 10 minutes
+  .row#randomVariationLine
+    .col-md-12
+      h3 Variation
+      select#randomVariation
+        option(value="0", selected) 0 seconds
+        option(value="1") 1 seconds
+        option(value="5") 5 seconds
+        option(value="10") 10 seconds
+        option(value="30") 30 seconds
+        option(value="60") 1 minute
+        option(value="300") 5 minute
+        option(value="600") 10 minute
   .row
     .col-md-12
       h3 Message
