@@ -29,6 +29,10 @@ section {
   min-height: calc(100% - 155px);
 }
 footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   padding: 5px 0px;
   background-color: #039;
   color: #fff;
