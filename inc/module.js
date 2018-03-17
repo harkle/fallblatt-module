@@ -58,7 +58,7 @@ module.exports = class Module extends ModuleController {
   random(action, duration = 10000, variation = 0) {
     this.randomDuration = duration
     this.randomVariation = variation;
-    console.log(this.randomDuration, this.randomVariation);
+
     switch (action) {
       case 'start':
         clearTimeout(this.randomTimeout);

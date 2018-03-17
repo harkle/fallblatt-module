@@ -20,7 +20,7 @@ module.exports = class ModuleController extends UARTController {
   step() {
     this.position++;
 
-    if (this.position > this.bladeCount) this.position = 0;
+    if (this.position >= this.bladeCount) this.position = 0;
 
     let data = new Buffer([0xFF, 0xC6, this.address]);
     UARTController.send(data);
