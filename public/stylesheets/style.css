@@ -6,12 +6,16 @@ header {
   background-color: #039;
   color: #fff;
 }
+h1 {
+  margin-top: 10px;
+}
 .nav {
-  margin-top: 20px;
+  margin-top: 0px;
 }
 .nav li a {
   border-radius: 0px;
   color: #fff;
+  padding: 5px 10px;
 }
 .nav li a:hover {
   background-color: transparent;

@@ -8,6 +8,8 @@ module.exports = class Module extends ModuleController {
     super(address, 0);
 
     this.type = type;
+    this.randomDuration = 10000
+    this.randomVariation = 0;
     this.switchMode('static');
     this.loadMessagesMapping();
   }

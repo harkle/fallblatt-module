@@ -45,6 +45,7 @@ $(function () {
   });
 
   if ($('body').hasClass('index')) {
+    socket.emit('status');
     socket.emit('list');
 
     $('body').on('change', '#mode, #randomDuration, #randomVariation', function () {
@@ -62,5 +63,7 @@ $(function () {
     $('body').on('change', '#module', function () {
       socket.emit('move', {destination: $(this).val()});
     });
+  } else {
+    socket.emit('status');
   }
 });

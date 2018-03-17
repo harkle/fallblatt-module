@@ -69,6 +69,8 @@ module.exports = class Actions {
       vorpal.log(colors.magenta('address\t\t') + this.moduleInstance.address);
       vorpal.log(colors.magenta('type\t\t') + this.moduleInstance.type);
       vorpal.log(colors.magenta('mode\t\t') + this.moduleInstance.mode);
+      vorpal.log(colors.magenta('duration\t') + this.moduleInstance.randomDuration / 1000);
+      vorpal.log(colors.magenta('variation\t') + this.moduleInstance.randomVariation / 1000);
       vorpal.log(colors.magenta('position\t') + this.moduleInstance.position);
     } else {
       let status = {
@@ -78,7 +80,9 @@ module.exports = class Actions {
         type: this.moduleInstance.type,
         mode: this.moduleInstance.mode,
         position: this.moduleInstance.position,
-        address: this.moduleInstance.address
+        address: this.moduleInstance.address,
+        randomDuration: this.moduleInstance.randomDuration / 1000,
+        randomVariation: this.moduleInstance.randomVariation / 1000
       };
 
       return status;

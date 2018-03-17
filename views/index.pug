@@ -2,13 +2,13 @@ extends structure
 block content
   .row
     .col-md-12
-      h3 Mode
+      h4 Mode
       select#mode
         option(value="static") Statique
         option(value="random") Aléatoire
   .row#randomDurationLine
     .col-md-12
-      h3 Duration
+      h4 Duration
       select#randomDuration
         option(value="5") 5 seconds
         option(value="10", selected) 10 seconds
@@ -18,7 +18,7 @@ block content
         option(value="600") 10 minutes
   .row#randomVariationLine
     .col-md-12
-      h3 Variation
+      h4 Variation
       select#randomVariation
         option(value="0", selected) 0 seconds
         option(value="1") 1 seconds
@@ -30,5 +30,5 @@ block content
         option(value="600") 10 minute
   .row
     .col-md-12
-      h3 Message
+      h4 Message
       #modules
