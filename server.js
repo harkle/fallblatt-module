@@ -73,6 +73,15 @@ vorpal
   })
 
 vorpal
+  .command('turn <action> [duration] [variation]')
+  .description('turn mode duration variation, use with start|stop, time in seconds')
+  .action(function(args, callback) {
+    Actions.turn(args.action, args.duration, args.variation);
+    callback();
+  });
+
+
+vorpal
   .command('random <action> [duration] [variation]')
   .description('random mode duration variation, use with start|stop, time in seconds')
   .action(function(args, callback) {

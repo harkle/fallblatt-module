@@ -64,6 +64,7 @@ module.exports = class Module extends ModuleController {
     switch (action) {
       case 'start':
         clearTimeout(this.randomTimeout);
+        clearTimeout(this.turnTimeout);
         this.selectRandomPosition(duration, variation);
         this.switchMode('random');
         break;
@@ -98,5 +99,31 @@ module.exports = class Module extends ModuleController {
     }
 
     return index;
+  }
+
+  turn(action, duration = 10000, variation = 0) {
+    this.turnDuration = duration
+    this.turnVariation = variation;
+
+    switch (action) {
+      case 'start':
+        clearTimeout(this.randomTimeout);
+        clearTimeout(this.turnTimeout);
+        this.turnPosition(duration, variation);
+        this.switchMode('turn');
+        break;
+      case 'stop':
+        clearTimeout(this.turnTimeout);
+        this.switchMode('static');
+        break;
+    }
+  }
+
+  turnPosition() {
+    this.turnTimeout = setTimeout(() => {
+      super.step();
+
+      this.turnPosition();
+    }, this.turnDuration + Math.floor(Math.random() * this.turnVariation));
   }
 };

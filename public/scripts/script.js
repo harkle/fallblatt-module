@@ -48,16 +48,27 @@ $(function () {
     socket.emit('status');
     socket.emit('list');
 
-    $('body').on('change', '#mode, #randomDuration, #randomVariation', function () {
-      var action = ($('#mode').val() == 'static') ? 'stop' : 'start';
+    $('body').on('change', '#mode, #turnDuration, #turnVariation, #randomDuration, #randomVariation', function () {
+      var mode = $('#mode').val();
+      var action = (mode == 'static') ? 'stop' : 'start';
+      var targetFields;
 
-      if (action == 'start') {
-        $('#randomVariationLine, #randomDurationLine').show();
+      $('#turnVariationLine, #turnDurationLine, #randomVariationLine, #randomDurationLine').hide()
+
+      if (mode == 'turn') {
+        targetFields = $('#turnVariationLine, #turnDurationLine');
+        socket.emit('turn', {action: action, duration: $('#turnDuration').val(), variation: $('#turnVariation').val()});
+      } else if (mode == 'random') {
+        targetFields = $('#randomVariationLine, #randomDurationLine');
+        socket.emit('random', {action: action, duration: $('#randomDuration').val(), variation: $('#randomVariation').val()});
       } else {
-        $('#randomVariationLine, #randomDurationLine').hide();
+        socket.emit('turn', {action: 'stop'});
+        socket.emit('random', {action: 'stop'});
       }
 
-      socket.emit('random', {action: action, duration: $('#randomDuration').val(), variation: $('#randomVariation').val()});
+      if (action == 'start') {
+        targetFields.show();
+      }
     });
 
     $('body').on('change', '#module', function () {
