@@ -65,7 +65,7 @@ module.exports = class Actions {
     if (echo) {
       vorpal.log(colors.magenta('status\t\t') + ((this.isReady) ? colors.green('ready') : colors.red('not ready')));
       vorpal.log(colors.magenta('serial\t\t') + ((Module.status()) ? colors.green('connected') : colors.red('not connected')));
-      vorpal.log(colors.magenta('network\t\t') + ((serverStatus) ? colors.green('connected') : colors.red('not connected')));
+      vorpal.log(colors.magenta('network\t\t') + ((server.isConnected) ? colors.green('connected') : colors.red('not connected')));
       vorpal.log(colors.magenta('address\t\t') + this.moduleInstance.address);
       vorpal.log(colors.magenta('type\t\t') + this.moduleInstance.type);
       vorpal.log(colors.magenta('mode\t\t') + this.moduleInstance.mode);
@@ -76,11 +76,14 @@ module.exports = class Actions {
       let status = {
         isReady: this.isReady,
         serial: Module.status(),
-        network: serverStatus,
+        network: server.isConnected,
+        ipAddress: server.ipAddress,
         type: this.moduleInstance.type,
         mode: this.moduleInstance.mode,
         position: this.moduleInstance.position,
         address: this.moduleInstance.address,
+        turnDuration: this.moduleInstance.turnDuration / 1000,
+        turnVariation: this.moduleInstance.turnVariation / 1000,
         randomDuration: this.moduleInstance.randomDuration / 1000,
         randomVariation: this.moduleInstance.randomVariation / 1000
       };

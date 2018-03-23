@@ -12,7 +12,7 @@ vorpal
   .command('status')
   .description('reset module position')
   .action(function(args, callback) {
-    Actions.status(server.status(), true);
+    Actions.status(server, true);
     callback();
   })
 

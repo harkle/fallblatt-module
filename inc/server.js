@@ -19,7 +19,7 @@ module.exports = class Server {
 
     this.io.on('connection', (client) => {
       client.on('status', (data) => {
-        client.emit('status', Actions.status(this.isConnected));
+        client.emit('status', Actions.status(this));
       });
 
       client.on('message', (data) => {
@@ -98,7 +98,7 @@ module.exports = class Server {
 
     this.app.get('/status', (req, res) => {
       res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify(Actions.status(this.isConnected)));
+      res.send(JSON.stringify(Actions.status(this)));
     });
 
     this.app.get('/message', function (req, res) {
@@ -171,7 +171,7 @@ module.exports = class Server {
       require('dns').lookup(require('os').hostname(), (err, add, fam) => {
         if (!err) {
           this.isConnected = true;
-
+          this.ipAddress = add;
           vorpal.log(colors.green('frontend is ready: http://' + add + ':' + port + ' or http://127.0.0.1:' + port));
         } else {
           vorpal.log(colors.red(err));
