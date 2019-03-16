@@ -67,8 +67,8 @@ An ionic app is available to controll multiple module on the same network. Pleas
  - **turn &lt;action&gt; [duration] [variation]**: set turn mode (action start|stop duration/variation in seconds)
 
 ## Documentation
-All the documentions come from # [eni23](https://github.com/eni23)/**[sbb-fallblatt](https://github.com/eni23/sbb-fallblatt)**.
+The documentation has been written by # [eni23](https://github.com/eni23)/**[sbb-fallblatt](https://github.com/eni23/sbb-fallblatt)** (Thank you very much to him to create a comprenhensive documentation for the communication protocol). Please be aware this documentation is under GPL licence (and not MIT as the rest of this repo).
 
- -  [Electrical details](https://github.com/harkle/fallblatt-module/blob/master/doc/electrical_new_module.md)
--   [Communication protocol](https://github.com/harkle/fallblatt-module/blob/master/doc/protocol_new_modules.md)
--   [Char<->Blade mapping](https://github.com/harkle/fallblatt-module/blob/master/doc/char_mapping.md)
+-  [Electrical details](https://github.com/harkle/fallblatt-module/blob/master/doc/electrical_new_module.md)
+-  [Communication protocol](https://github.com/harkle/fallblatt-module/blob/master/doc/protocol_new_modules.md)
+-  [Char<->Blade mapping](https://github.com/harkle/fallblatt-module/blob/master/doc/char_mapping.md)
